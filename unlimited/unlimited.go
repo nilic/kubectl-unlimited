@@ -4,7 +4,7 @@ import (
 	"log"
 )
 
-func ShowUnlimited(kubeConfig string, kubeContext string, namespace string, labels string, checkCPU bool, checkMemory bool) {
+func ShowUnlimited(kubeConfig string, kubeContext string, namespace string, labels string, outputFormat string, checkCPU bool, checkMemory bool) {
 	clientset, err := getKubeClientset(kubeConfig, kubeContext)
 	if err != nil {
 		log.Fatalf("error: %v\n", err)
@@ -17,5 +17,8 @@ func ShowUnlimited(kubeConfig string, kubeContext string, namespace string, labe
 
 	containerList := buildContainerList(pods, checkCPU, checkMemory)
 
-	printContainerList(containerList)
+	err = printContainerList(containerList, outputFormat)
+	if err != nil {
+		log.Fatalf("error: %v\n", err)
+	}
 }

@@ -10,18 +10,17 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
-type computeResources struct {
-	CPURequest    resource.Quantity
-	CPULimit      resource.Quantity
-	memoryRequest resource.Quantity
-	memoryLimit   resource.Quantity
+type computeResource struct {
+	CPU    resource.Quantity `json:"cpu"`
+	Memory resource.Quantity `json:"memory"`
 }
 
 type container struct {
-	name      string
-	podName   string
-	namespace string
-	resources computeResources
+	Name      string          `json:"name"`
+	PodName   string          `json:"pod"`
+	Namespace string          `json:"namespace"`
+	Limits    computeResource `json:"limits"`
+	Requests  computeResource `json:"requests"`
 }
 
 func getPods(clientset kubernetes.Interface, namespace string, labels string) (*corev1.PodList, error) {
@@ -52,14 +51,16 @@ func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) [
 		for _, c := range p.Spec.Containers {
 			if (checkCPU && c.Resources.Limits.Cpu().IsZero()) || (checkMemory && c.Resources.Limits.Memory().IsZero()) {
 				containerList = append(containerList, container{
-					name:      c.Name,
-					podName:   p.Name,
-					namespace: p.Namespace,
-					resources: computeResources{
-						CPURequest:    c.Resources.Requests["cpu"],
-						CPULimit:      c.Resources.Limits["cpu"],
-						memoryRequest: c.Resources.Requests["memory"],
-						memoryLimit:   c.Resources.Limits["memory"],
+					Name:      c.Name,
+					PodName:   p.Name,
+					Namespace: p.Namespace,
+					Limits: computeResource{
+						CPU:    c.Resources.Limits["cpu"],
+						Memory: c.Resources.Limits["memory"],
+					},
+					Requests: computeResource{
+						CPU:    c.Resources.Requests["cpu"],
+						Memory: c.Resources.Requests["memory"],
 					},
 				})
 			}
