@@ -22,6 +22,8 @@ builds:
         goarch: arm64
       - goos: windows
         goarch: arm
+    ldflags:
+      - -s -w -X github.com/nilic/kubectl-unlimited/cmd.version={{.Version}}
 archives:
   - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     format: tar.gz
