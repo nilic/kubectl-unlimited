@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/nilic/kubectl-unlimited/unlimited"
@@ -47,5 +48,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&labels,
 		"labels", "l", "", "labels to filter pods with")
 	rootCmd.PersistentFlags().StringVarP(&outputFormat,
-		"output", "o", "table", "output format, one of (json, table)")
+		"output", "o", "table",
+		fmt.Sprintf("output format, one of: %v", unlimited.SupportedOutputFormats))
 }
