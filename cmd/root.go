@@ -22,7 +22,7 @@ var (
 		Long:  "kubectl plugin for displaying information about running containers with no limits set.",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			if !slices.Contains(unlimited.SupportedOutputFormats, outputFormat) {
-				log.Fatalf("error: invalid output format, please choose one of %v\n", unlimited.SupportedOutputFormats)
+				log.Fatalf("error: invalid output format, please choose one of: %v\n", unlimited.SupportedOutputFormats)
 			}
 		},
 		Run: func(cmd *cobra.Command, args []string) {
