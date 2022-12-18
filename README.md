@@ -28,7 +28,8 @@ Flags:
   -h, --help                help for kubectl-unlimited
       --kubeconfig string   path to the kubeconfig file
   -l, --labels string       labels to filter pods with
-  -n, --namespace string    only analyze pods in this namespace (by default all pods from all namespaces are shown)
+  -n, --namespace string    only analyze containers in this namespace (by default all containers from all namespaces are shown)
+  -o, --output string       output format, one of: [table json] (default "table")
 ```
 
 ## Examples
@@ -36,6 +37,9 @@ Flags:
 ```
 # get containers with either CPU or memory limits unset
 $ kubectl unlimited
+
+# same, but in JSON
+$ kubectl unlimited -o json
 
 # get containers with only CPU limits unset
 $ kubectl unlimited cpu
