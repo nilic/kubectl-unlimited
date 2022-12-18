@@ -23,7 +23,7 @@ func printContainerList(containerList []container, outputFormat string) error {
 	case "json":
 		return printJSON(containerList)
 	default:
-		return fmt.Errorf("invalid output format, please choose one of (json, table)")
+		return fmt.Errorf("invalid output format, please choose one of %v", SupportedOutputFormats)
 	}
 }
 
