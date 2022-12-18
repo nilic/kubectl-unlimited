@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	header   = "NAMESPACE\tPOD\tCONTAINER\tCPU REQUEST\tCPU LIMIT\tMEMORY REQUEST\tMEMORY LIMIT"
+	header   = "NAMESPACE\tPOD\tCONTAINER\tCPU REQ\tCPU LIM\tMEM REQ\tMEM LIM"
 	mebibyte = 1024 * 1024
 )
 
