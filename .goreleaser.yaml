@@ -5,23 +5,12 @@ builds:
       - linux
       - windows
       - darwin
-      - freebsd
     goarch:
       - amd64
-      - "386"
-      - arm
       - arm64
     ignore:
-      - goos: darwin
-        goarch: "386"
-      - goos: darwin
-        goarch: arm
-      - goos: freebsd
-        goarch: arm64
       - goos: windows
         goarch: arm64
-      - goos: windows
-        goarch: arm
     ldflags:
       - -s -w -X github.com/nilic/kubectl-unlimited/cmd.version={{.Version}}
 archives:
