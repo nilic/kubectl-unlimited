@@ -6,6 +6,8 @@ import (
 	"os"
 	"sort"
 	"text/tabwriter"
+
+	"sigs.k8s.io/yaml"
 )
 
 const (
@@ -13,7 +15,7 @@ const (
 	mebibyte = 1024 * 1024
 )
 
-var SupportedOutputFormats = []string{"table", "json"}
+var SupportedOutputFormats = []string{"table", "json", "yaml"}
 
 func printContainerList(containerList []container, outputFormat string) error {
 	sortContainerList(containerList)
@@ -22,6 +24,8 @@ func printContainerList(containerList []container, outputFormat string) error {
 		return printTable(containerList)
 	case "json":
 		return printJSON(containerList)
+	case "yaml":
+		return printYAML(containerList)
 	default:
 		return fmt.Errorf("invalid output format, please choose one of: %v", SupportedOutputFormats)
 	}
@@ -65,6 +69,15 @@ func printJSON(containerList []container) error {
 		return fmt.Errorf("error marshaling JSON: %s", err.Error())
 	}
 	fmt.Printf("%s", jsonRaw)
+	return nil
+}
+
+func printYAML(containerList []container) error {
+	yamlRaw, err := yaml.Marshal(containerList)
+	if err != nil {
+		return fmt.Errorf("error marshaling YAML: %s", err.Error())
+	}
+	fmt.Printf("%s", yamlRaw)
 	return nil
 }
 
