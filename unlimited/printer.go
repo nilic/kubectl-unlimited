@@ -14,6 +14,8 @@ const (
 
 func printContainerList(containerList []container) {
 	sortContainerList(containerList)
+
+	// (output io.Writer, minwidth, tabwidth, padding int, padchar byte, flags uint)
 	w := tabwriter.NewWriter(os.Stdout, 6, 4, 3, ' ', 0)
 	fmt.Fprintln(w, header)
 	for _, c := range containerList {
