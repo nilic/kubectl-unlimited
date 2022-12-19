@@ -65,11 +65,11 @@ Default output format is `table` which prints information in a `kubectl`-like ta
 
 ```
 $ kubectl unlimited memory -n kube-system
-NAMESPACE     POD                                          CONTAINER                CPU REQ   CPU LIM   MEM REQ   MEM LIM
-kube-system   metrics-server-668d979685-tk6ws              metrics-server           100m      0m        70Mi      0Mi
-kube-system   svclb-traefik-21193086-wwtg6                 lb-tcp-443               0m        0m        0Mi       0Mi
-kube-system   svclb-traefik-21193086-wwtg6                 lb-tcp-80                0m        0m        0Mi       0Mi
-kube-system   traefik-5b77545fd4-sqpzz                     traefik                  0m        0m        0Mi       0Mi
+NAMESPACE     POD                               CONTAINER        CPU REQ   CPU LIM   MEM REQ   MEM LIM
+kube-system   metrics-server-668d979685-tk6ws   metrics-server   100m      0m        70Mi      0Mi
+kube-system   svclb-traefik-21193086-wwtg6      lb-tcp-443       0m        0m        0Mi       0Mi
+kube-system   svclb-traefik-21193086-wwtg6      lb-tcp-80        0m        0m        0Mi       0Mi
+kube-system   traefik-5b77545fd4-sqpzz          traefik          0m        0m        0Mi       0Mi
 ```
 
 Output is sorted first by namespace, then by pod name and then by container name.
