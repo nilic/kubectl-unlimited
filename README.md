@@ -7,7 +7,17 @@ Have in mind that CPU limits are a somewhat controversial topic, see [CPU limits
 
 ## Installation
 
-Just download the binary from the [Releases](https://github.com/nilic/kubectl-unlimited/releases) page and place it in your `PATH`.
+### krew
+
+Using [krew](https://krew.sigs.k8s.io/) kubectl plugin manager:
+
+```
+kubectl krew install unlimited
+```
+
+### Manual
+
+Just download the binary for your OS and architecture from the [Releases](https://github.com/nilic/kubectl-unlimited/releases) page and place it in your `PATH`.
 
 ## Usage
 
