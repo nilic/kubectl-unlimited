@@ -1,5 +1,5 @@
 # kubectl unlimited ♾️
-A kubectl plugin for displaying information about running containers with no `limits` set in a Kubernetes cluster.
+A [kubectl plugin](https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/) for displaying information about running containers with no `limits` set in a Kubernetes cluster.
 
 Why would you need this? Because these pesky unlimited containers can affect other workloads in the cluster and even cause node they are running on to become unresponsive.
 
