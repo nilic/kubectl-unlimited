@@ -84,7 +84,7 @@ kube-system   traefik-5b77545fd4-sqpzz          traefik          0m        0m   
 
 Output is sorted first by namespace, then by pod name and then by container name.
 
-Alternatively, output format can be set to `json` and `yaml` using the `-o` or `--output` flags.
+Alternatively, output format can be set to `json`, `yaml` and `name` using the `-o` or `--output` flags.
 
 ```
 $ kubectl unlimited memory -n kube-system -o yaml
