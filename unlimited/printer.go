@@ -15,7 +15,7 @@ const (
 	mebibyte = 1024 * 1024
 )
 
-var SupportedOutputFormats = []string{"table", "json", "yaml"}
+var SupportedOutputFormats = []string{"table", "json", "yaml", "name"}
 
 func printContainerList(containerList []container, outputFormat string) error {
 	sortContainerList(containerList)
@@ -26,6 +26,8 @@ func printContainerList(containerList []container, outputFormat string) error {
 		return printJSON(containerList)
 	case "yaml":
 		return printYAML(containerList)
+	case "name":
+		return printName(containerList)
 	default:
 		return fmt.Errorf("invalid output format, please choose one of: %v", SupportedOutputFormats)
 	}
@@ -78,6 +80,13 @@ func printYAML(containerList []container) error {
 		return fmt.Errorf("error marshaling YAML: %s", err.Error())
 	}
 	fmt.Printf("%s", yamlRaw)
+	return nil
+}
+
+func printName(containerList []container) error {
+	for _, c := range containerList {
+		fmt.Println(c.Name)
+	}
 	return nil
 }
 
