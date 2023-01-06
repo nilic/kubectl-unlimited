@@ -39,7 +39,7 @@ Flags:
       --kubeconfig string   path to the kubeconfig file
   -l, --labels string       labels to filter pods with
   -n, --namespace string    only analyze containers in this namespace
-  -o, --output string       output format, one of: [table json yaml] (default "table")
+  -o, --output string       output format, one of: [table json yaml name] (default "table")
 ```
 
 ## Examples
