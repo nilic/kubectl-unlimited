@@ -22,8 +22,7 @@ func ShowUnlimited(c *Config) {
 
 	containerList := buildContainerList(pods, c.CheckCPU, c.CheckMemory)
 
-	err = containerList.printContainers(c.OutputFormat)
-	if err != nil {
+	if err = containerList.printContainers(c.OutputFormat); err != nil {
 		log.Fatalf("error: %v\n", err)
 	}
 }
