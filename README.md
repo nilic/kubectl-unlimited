@@ -47,22 +47,22 @@ Flags:
 
 ```
 # get containers with either CPU or memory limits unset in the current namespace
-$ kubectl unlimited
+kubectl unlimited
 
 # get all containers with either CPU or memory limits unset
-$ kubectl unlimited -A
+kubectl unlimited -A
 
 # same, but in JSON
-$ kubectl unlimited -A -o json
+kubectl unlimited -A -o json
 
 # get all containers with only CPU limits unset
-$ kubectl unlimited cpu -A
+kubectl unlimited cpu -A
 
 # get all containers with only memory limits unset
-$ kubectl unlimited memory -A
+kubectl unlimited memory -A
 
 # get containers with only memory limits unset in namespace kube-system
-$ kubectl unlimited memory -n kube-system
+kubectl unlimited memory -n kube-system
 ```
 
 ## Filtering output
