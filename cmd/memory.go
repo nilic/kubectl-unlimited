@@ -10,6 +10,7 @@ var memoryCmd = &cobra.Command{
 	Short: "Display information about running containers with no memory limits set",
 	Long:  `Display information about running containers with no memory limits set`,
 	Run: func(cmd *cobra.Command, args []string) {
+		config.SetCheckMemory()
 		unlimited.ShowUnlimited(config)
 	},
 }

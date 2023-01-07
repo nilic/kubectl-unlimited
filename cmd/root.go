@@ -9,10 +9,7 @@ import (
 )
 
 var (
-	config = &unlimited.Config{
-		CheckCPU:    true,
-		CheckMemory: true,
-	}
+	config = &unlimited.Config{}
 
 	rootCmd = &cobra.Command{
 		Use:   "kubectl-unlimited",
@@ -22,6 +19,8 @@ var (
 			config.Validate()
 		},
 		Run: func(cmd *cobra.Command, args []string) {
+			config.SetCheckCPU()
+			config.SetCheckMemory()
 			unlimited.ShowUnlimited(config)
 		},
 	}

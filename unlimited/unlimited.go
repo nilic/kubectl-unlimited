@@ -22,6 +22,14 @@ func (c *Config) Validate() {
 	}
 }
 
+func (c *Config) SetCheckCPU() {
+	c.CheckCPU = true
+}
+
+func (c *Config) SetCheckMemory() {
+	c.CheckMemory = true
+}
+
 func ShowUnlimited(c *Config) {
 	clientset, err := getKubeClientset(c.KubeConfig, c.KubeContext)
 	if err != nil {
