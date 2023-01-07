@@ -34,6 +34,7 @@ Available Commands:
   version     Print kubectl-unlimited version
 
 Flags:
+  -A, --all-namespaces      analyze containers in all namespaces
       --context string      name of the kubeconfig context to use
   -h, --help                help for kubectl-unlimited
       --kubeconfig string   path to the kubeconfig file
@@ -45,25 +46,28 @@ Flags:
 ## Examples
 
 ```
+# get containers with either CPU or memory limits unset in the current namespace
+kubectl unlimited
+
 # get all containers with either CPU or memory limits unset
-$ kubectl unlimited
+kubectl unlimited -A
 
 # same, but in JSON
-$ kubectl unlimited -o json
+kubectl unlimited -A -o json
 
-# get containers with only CPU limits unset
-$ kubectl unlimited cpu
+# get all containers with only CPU limits unset
+kubectl unlimited cpu -A
 
-# get containers with only memory limits unset
-$ kubectl unlimited memory
+# get all containers with only memory limits unset
+kubectl unlimited memory -A
 
 # get containers with only memory limits unset in namespace kube-system
-$ kubectl unlimited memory -n kube-system
+kubectl unlimited memory -n kube-system
 ```
 
 ## Filtering output
 
-By default, all unlimited containers from all namespaces are shown. This can be filtered on a namespace or pod label basis using appropriate flags (see [Usage](#usage) and [Examples](#examples)). If used, pod labels should be defined in the `key1=value1,key2=value2,..` format, e.g.
+Containers can be filtered on a pod label basis. If used, pod labels should be defined in the `key1=value1,key2=value2,..` format, e.g.
 
 ```
 kubectl unlimited -l app=foo,owner=bar

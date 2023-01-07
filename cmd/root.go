@@ -16,7 +16,9 @@ var (
 		Short: "kubectl plugin for displaying information about running containers with no limits set.",
 		Long:  "kubectl plugin for displaying information about running containers with no limits set.",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			config.Validate()
+			if err := config.Validate(); err != nil {
+				log.Fatalf("error: %v\n", err)
+			}
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			config.SetCheckCPU()
@@ -40,6 +42,8 @@ func init() {
 		"context", "", "", "name of the kubeconfig context to use")
 	rootCmd.PersistentFlags().StringVarP(&config.Namespace,
 		"namespace", "n", "", "only analyze containers in this namespace")
+	rootCmd.PersistentFlags().BoolVarP(&config.AllNamespaces,
+		"all-namespaces", "A", false, "analyze containers in all namespaces")
 	rootCmd.PersistentFlags().StringVarP(&config.Labels,
 		"labels", "l", "", "labels to filter pods with")
 	rootCmd.PersistentFlags().StringVarP(&config.OutputFormat,
