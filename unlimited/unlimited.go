@@ -15,9 +15,9 @@ func ShowUnlimited(kubeConfig string, kubeContext string, namespace string, labe
 		log.Fatalf("error: %v\n", err)
 	}
 
-	containerList := buildContainerList(pods, checkCPU, checkMemory)
+	cl := buildContainerList(pods, checkCPU, checkMemory)
 
-	err = printContainerList(containerList, outputFormat)
+	err = cl.printContainers(outputFormat)
 	if err != nil {
 		log.Fatalf("error: %v\n", err)
 	}

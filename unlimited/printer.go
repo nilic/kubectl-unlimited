@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"sort"
 	"text/tabwriter"
 
 	"sigs.k8s.io/yaml"
@@ -17,41 +16,27 @@ const (
 
 var SupportedOutputFormats = []string{"table", "json", "yaml", "name"}
 
-func printContainerList(containerList []container, outputFormat string) error {
-	sortContainerList(containerList)
+func (cl containerList) printContainers(outputFormat string) error {
+	cl.sortContainers()
 	switch outputFormat {
 	case "table":
-		return printTable(containerList)
+		return cl.printTable()
 	case "json":
-		return printJSON(containerList)
+		return cl.printJSON()
 	case "yaml":
-		return printYAML(containerList)
+		return cl.printYAML()
 	case "name":
-		return printName(containerList)
+		return cl.printName()
 	default:
 		return fmt.Errorf("invalid output format, please choose one of: %v", SupportedOutputFormats)
 	}
 }
 
-func sortContainerList(cl []container) {
-	sort.Slice(cl, func(i, j int) bool {
-		if cl[i].Namespace != cl[j].Namespace {
-			return cl[i].Namespace < cl[j].Namespace
-		}
-
-		if cl[i].PodName != cl[j].PodName {
-			return cl[i].PodName < cl[j].PodName
-		}
-
-		return cl[i].Name < cl[j].Name
-	})
-}
-
-func printTable(containerList []container) error {
+func (cl containerList) printTable() error {
 	// (output io.Writer, minwidth, tabwidth, padding int, padchar byte, flags uint)
 	w := tabwriter.NewWriter(os.Stdout, 6, 4, 3, ' ', 0)
 	fmt.Fprintln(w, header)
-	for _, c := range containerList {
+	for _, c := range cl.Containers {
 		fmt.Fprintf(w, "%s\t%s\t%s\t%dm\t%dm\t%dMi\t%dMi\n",
 			c.Namespace,
 			c.PodName,
@@ -65,8 +50,8 @@ func printTable(containerList []container) error {
 	return nil
 }
 
-func printJSON(containerList []container) error {
-	jsonRaw, err := json.MarshalIndent(containerList, "", "  ")
+func (cl containerList) printJSON() error {
+	jsonRaw, err := json.MarshalIndent(cl.Containers, "", "  ")
 	if err != nil {
 		return fmt.Errorf("error marshaling JSON: %s", err.Error())
 	}
@@ -74,8 +59,8 @@ func printJSON(containerList []container) error {
 	return nil
 }
 
-func printYAML(containerList []container) error {
-	yamlRaw, err := yaml.Marshal(containerList)
+func (cl containerList) printYAML() error {
+	yamlRaw, err := yaml.Marshal(cl.Containers)
 	if err != nil {
 		return fmt.Errorf("error marshaling YAML: %s", err.Error())
 	}
@@ -83,8 +68,8 @@ func printYAML(containerList []container) error {
 	return nil
 }
 
-func printName(containerList []container) error {
-	for _, c := range containerList {
+func (cl containerList) printName() error {
+	for _, c := range cl.Containers {
 		fmt.Println(c.Name)
 	}
 	return nil

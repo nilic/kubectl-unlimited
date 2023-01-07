@@ -3,6 +3,7 @@ package unlimited
 import (
 	"context"
 	"fmt"
+	"sort"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -21,6 +22,10 @@ type container struct {
 	Namespace string          `json:"namespace"`
 	Limits    computeResource `json:"limits"`
 	Requests  computeResource `json:"requests"`
+}
+
+type containerList struct {
+	Containers []container
 }
 
 func getPods(clientset kubernetes.Interface, namespace string, labels string) (*corev1.PodList, error) {
@@ -44,13 +49,13 @@ func getPods(clientset kubernetes.Interface, namespace string, labels string) (*
 	return pods, nil
 }
 
-func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) []container {
-	containerList := []container{}
+func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) containerList {
+	cl := containerList{}
 
 	for _, p := range pods.Items {
 		for _, c := range p.Spec.Containers {
 			if (checkCPU && c.Resources.Limits.Cpu().IsZero()) || (checkMemory && c.Resources.Limits.Memory().IsZero()) {
-				containerList = append(containerList, container{
+				cl.Containers = append(cl.Containers, container{
 					Name:      c.Name,
 					PodName:   p.Name,
 					Namespace: p.Namespace,
@@ -67,5 +72,19 @@ func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) [
 		}
 	}
 
-	return containerList
+	return cl
+}
+
+func (cl containerList) sortContainers() {
+	sort.Slice(cl.Containers, func(i, j int) bool {
+		if cl.Containers[i].Namespace != cl.Containers[j].Namespace {
+			return cl.Containers[i].Namespace < cl.Containers[j].Namespace
+		}
+
+		if cl.Containers[i].PodName != cl.Containers[j].PodName {
+			return cl.Containers[i].PodName < cl.Containers[j].PodName
+		}
+
+		return cl.Containers[i].Name < cl.Containers[j].Name
+	})
 }
