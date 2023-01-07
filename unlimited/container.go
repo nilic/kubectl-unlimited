@@ -23,6 +23,10 @@ type container struct {
 	Requests  computeResource `json:"requests"`
 }
 
+type containerList struct {
+	Containers []container
+}
+
 func getPods(clientset kubernetes.Interface, namespace string, labels string) (*corev1.PodList, error) {
 	pods, err := clientset.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{
 		LabelSelector: labels,
@@ -44,13 +48,13 @@ func getPods(clientset kubernetes.Interface, namespace string, labels string) (*
 	return pods, nil
 }
 
-func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) []container {
-	containerList := []container{}
+func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) containerList {
+	cl := containerList{}
 
 	for _, p := range pods.Items {
 		for _, c := range p.Spec.Containers {
 			if (checkCPU && c.Resources.Limits.Cpu().IsZero()) || (checkMemory && c.Resources.Limits.Memory().IsZero()) {
-				containerList = append(containerList, container{
+				cl.Containers = append(cl.Containers, container{
 					Name:      c.Name,
 					PodName:   p.Name,
 					Namespace: p.Namespace,
@@ -67,5 +71,5 @@ func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) [
 		}
 	}
 
-	return containerList
+	return cl
 }

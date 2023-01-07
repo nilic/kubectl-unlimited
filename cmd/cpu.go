@@ -10,7 +10,8 @@ var cpuCmd = &cobra.Command{
 	Short: "Display information about running containers with no CPU limits set",
 	Long:  `Display information about running containers with no CPU limits set`,
 	Run: func(cmd *cobra.Command, args []string) {
-		unlimited.ShowUnlimited(kubeConfig, kubeContext, namespace, labels, outputFormat, true, false)
+		config.SetCheckCPU()
+		unlimited.ShowUnlimited(config)
 	},
 }
 
