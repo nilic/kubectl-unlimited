@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"text/tabwriter"
 
 	"sigs.k8s.io/yaml"
@@ -30,6 +31,20 @@ func (cl *containerList) printContainers(outputFormat string) error {
 	default:
 		return fmt.Errorf("invalid output format, please choose one of: %v", SupportedOutputFormats)
 	}
+}
+
+func (cl *containerList) sortContainers() {
+	sort.Slice(cl.Containers, func(i, j int) bool {
+		if cl.Containers[i].Namespace != cl.Containers[j].Namespace {
+			return cl.Containers[i].Namespace < cl.Containers[j].Namespace
+		}
+
+		if cl.Containers[i].PodName != cl.Containers[j].PodName {
+			return cl.Containers[i].PodName < cl.Containers[j].PodName
+		}
+
+		return cl.Containers[i].Name < cl.Containers[j].Name
+	})
 }
 
 func (cl *containerList) printTable() error {

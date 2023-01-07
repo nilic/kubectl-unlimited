@@ -3,7 +3,6 @@ package unlimited
 import (
 	"context"
 	"fmt"
-	"sort"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -73,18 +72,4 @@ func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) c
 	}
 
 	return cl
-}
-
-func (cl *containerList) sortContainers() {
-	sort.Slice(cl.Containers, func(i, j int) bool {
-		if cl.Containers[i].Namespace != cl.Containers[j].Namespace {
-			return cl.Containers[i].Namespace < cl.Containers[j].Namespace
-		}
-
-		if cl.Containers[i].PodName != cl.Containers[j].PodName {
-			return cl.Containers[i].PodName < cl.Containers[j].PodName
-		}
-
-		return cl.Containers[i].Name < cl.Containers[j].Name
-	})
 }
