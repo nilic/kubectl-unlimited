@@ -16,7 +16,9 @@ var (
 		Short: "kubectl plugin for displaying information about running containers with no limits set.",
 		Long:  "kubectl plugin for displaying information about running containers with no limits set.",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			config.Validate()
+			if err := config.Validate(); err != nil {
+				log.Fatalf("error: %v\n", err)
+			}
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			config.SetCheckCPU()
