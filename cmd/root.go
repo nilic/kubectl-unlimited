@@ -40,6 +40,8 @@ func init() {
 		"context", "", "", "name of the kubeconfig context to use")
 	rootCmd.PersistentFlags().StringVarP(&config.Namespace,
 		"namespace", "n", "", "only analyze containers in this namespace")
+	rootCmd.PersistentFlags().BoolVarP(&config.AllNamespaces,
+		"all-namespaces", "A", false, "analyze containers in all namespaces")
 	rootCmd.PersistentFlags().StringVarP(&config.Labels,
 		"labels", "l", "", "labels to filter pods with")
 	rootCmd.PersistentFlags().StringVarP(&config.OutputFormat,
