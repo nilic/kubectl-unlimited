@@ -75,7 +75,7 @@ func buildContainerList(pods *corev1.PodList, checkCPU bool, checkMemory bool) c
 	return cl
 }
 
-func (cl containerList) sortContainers() {
+func (cl *containerList) sortContainers() {
 	sort.Slice(cl.Containers, func(i, j int) bool {
 		if cl.Containers[i].Namespace != cl.Containers[j].Namespace {
 			return cl.Containers[i].Namespace < cl.Containers[j].Namespace

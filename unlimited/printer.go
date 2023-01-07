@@ -16,7 +16,7 @@ const (
 
 var SupportedOutputFormats = []string{"table", "json", "yaml", "name"}
 
-func (cl containerList) printContainers(outputFormat string) error {
+func (cl *containerList) printContainers(outputFormat string) error {
 	cl.sortContainers()
 	switch outputFormat {
 	case "table":
@@ -32,7 +32,7 @@ func (cl containerList) printContainers(outputFormat string) error {
 	}
 }
 
-func (cl containerList) printTable() error {
+func (cl *containerList) printTable() error {
 	// (output io.Writer, minwidth, tabwidth, padding int, padchar byte, flags uint)
 	w := tabwriter.NewWriter(os.Stdout, 6, 4, 3, ' ', 0)
 	fmt.Fprintln(w, header)
@@ -50,7 +50,7 @@ func (cl containerList) printTable() error {
 	return nil
 }
 
-func (cl containerList) printJSON() error {
+func (cl *containerList) printJSON() error {
 	jsonRaw, err := json.MarshalIndent(cl.Containers, "", "  ")
 	if err != nil {
 		return fmt.Errorf("error marshaling JSON: %s", err.Error())
@@ -59,7 +59,7 @@ func (cl containerList) printJSON() error {
 	return nil
 }
 
-func (cl containerList) printYAML() error {
+func (cl *containerList) printYAML() error {
 	yamlRaw, err := yaml.Marshal(cl.Containers)
 	if err != nil {
 		return fmt.Errorf("error marshaling YAML: %s", err.Error())
@@ -68,7 +68,7 @@ func (cl containerList) printYAML() error {
 	return nil
 }
 
-func (cl containerList) printName() error {
+func (cl *containerList) printName() error {
 	for _, c := range cl.Containers {
 		fmt.Println(c.Name)
 	}
