@@ -6,27 +6,23 @@ import (
 
 	"github.com/nilic/kubectl-unlimited/unlimited"
 	"github.com/spf13/cobra"
-	"golang.org/x/exp/slices"
 )
 
 var (
-	kubeConfig   string
-	kubeContext  string
-	namespace    string
-	labels       string
-	outputFormat string
+	config = &unlimited.Config{
+		CheckCPU:    true,
+		CheckMemory: true,
+	}
 
 	rootCmd = &cobra.Command{
 		Use:   "kubectl-unlimited",
 		Short: "kubectl plugin for displaying information about running containers with no limits set.",
 		Long:  "kubectl plugin for displaying information about running containers with no limits set.",
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
-			if !slices.Contains(unlimited.SupportedOutputFormats, outputFormat) {
-				log.Fatalf("error: invalid output format, please choose one of: %v\n", unlimited.SupportedOutputFormats)
-			}
+			config.Validate()
 		},
 		Run: func(cmd *cobra.Command, args []string) {
-			unlimited.ShowUnlimited(kubeConfig, kubeContext, namespace, labels, outputFormat, true, true)
+			unlimited.ShowUnlimited(config)
 		},
 	}
 )
@@ -39,15 +35,15 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&kubeConfig,
+	rootCmd.PersistentFlags().StringVarP(&config.KubeConfig,
 		"kubeconfig", "", "", "path to the kubeconfig file")
-	rootCmd.PersistentFlags().StringVarP(&kubeContext,
+	rootCmd.PersistentFlags().StringVarP(&config.KubeContext,
 		"context", "", "", "name of the kubeconfig context to use")
-	rootCmd.PersistentFlags().StringVarP(&namespace,
+	rootCmd.PersistentFlags().StringVarP(&config.Namespace,
 		"namespace", "n", "", "only analyze containers in this namespace")
-	rootCmd.PersistentFlags().StringVarP(&labels,
+	rootCmd.PersistentFlags().StringVarP(&config.Labels,
 		"labels", "l", "", "labels to filter pods with")
-	rootCmd.PersistentFlags().StringVarP(&outputFormat,
+	rootCmd.PersistentFlags().StringVarP(&config.OutputFormat,
 		"output", "o", "table",
 		fmt.Sprintf("output format, one of: %v", unlimited.SupportedOutputFormats))
 }
