@@ -8,7 +8,7 @@ func Show(c *Config) {
 	clientconfig := getKubeConfig(c.KubeConfig, c.KubeContext)
 	clientset, err := getKubeClientset(clientconfig)
 	if err != nil {
-		log.Fatalf("error: %v\n", err)
+		log.Fatalf("error: unable to generate clientset: %v\n", err)
 	}
 
 	if err = c.SetNamespace(clientconfig); err != nil {

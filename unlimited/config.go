@@ -22,7 +22,6 @@ func (c *Config) Validate() error {
 	if !slices.Contains(SupportedOutputFormats, c.OutputFormat) {
 		return fmt.Errorf("invalid output format, please choose one of: %v", SupportedOutputFormats)
 	}
-
 	return nil
 }
 

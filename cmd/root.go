@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/nilic/kubectl-unlimited/unlimited"
 	"github.com/spf13/cobra"
@@ -15,10 +14,11 @@ var (
 		Use:   "kubectl-unlimited",
 		Short: "kubectl plugin for displaying information about running containers with no limits set.",
 		Long:  "kubectl plugin for displaying information about running containers with no limits set.",
-		PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			if err := config.Validate(); err != nil {
-				log.Fatalf("error: %v\n", err)
+				return err
 			}
+			return nil
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			config.SetCheckCPU()
@@ -29,10 +29,7 @@ var (
 )
 
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		log.Fatalf("error: %v\n", err)
-	}
+	rootCmd.Execute()
 }
 
 func init() {
