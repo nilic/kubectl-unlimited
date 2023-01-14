@@ -5,8 +5,8 @@ import (
 )
 
 func Show(c *Config) {
-	clientconfig := getKubeConfig(c.KubeConfig, c.KubeContext)
-	clientset, err := getKubeClientset(clientconfig)
+	clientconfig := kubeClientConfig(c.KubeConfig, c.KubeContext)
+	clientset, err := kubeClientset(clientconfig)
 	if err != nil {
 		log.Fatalf("error: unable to generate clientset: %v\n", err)
 	}

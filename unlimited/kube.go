@@ -5,7 +5,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-func getKubeConfig(kubeConfig string, kubeContext string) clientcmd.ClientConfig {
+func kubeClientConfig(kubeConfig string, kubeContext string) clientcmd.ClientConfig {
 	loadingRules := clientcmd.NewDefaultClientConfigLoadingRules()
 	if kubeConfig != "" {
 		loadingRules.ExplicitPath = kubeConfig
@@ -15,7 +15,7 @@ func getKubeConfig(kubeConfig string, kubeContext string) clientcmd.ClientConfig
 	return clientcmd.NewNonInteractiveDeferredLoadingClientConfig(loadingRules, configOverrides)
 }
 
-func getKubeClientset(c clientcmd.ClientConfig) (*kubernetes.Clientset, error) {
+func kubeClientset(c clientcmd.ClientConfig) (*kubernetes.Clientset, error) {
 	config, err := c.ClientConfig()
 	if err != nil {
 		return nil, err
