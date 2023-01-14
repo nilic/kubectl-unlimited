@@ -20,7 +20,7 @@ type Config struct {
 
 func (c *Config) Validate() error {
 	if !slices.Contains(SupportedOutputFormats, c.OutputFormat) {
-		return fmt.Errorf("error: invalid output format, please choose one of: %v", SupportedOutputFormats)
+		return fmt.Errorf("invalid output format, please choose one of: %v", SupportedOutputFormats)
 	}
 
 	return nil
@@ -40,7 +40,7 @@ func (c *Config) SetNamespace(clientconfig clientcmd.ClientConfig) error {
 	} else if c.Namespace == "" {
 		ctxNamespace, _, err := clientconfig.Namespace()
 		if err != nil {
-			return fmt.Errorf("error reading namespace from current context: %s", err.Error())
+			return fmt.Errorf("unable to read namespace from current context: %s", err.Error())
 		}
 		c.Namespace = ctxNamespace
 	}

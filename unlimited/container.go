@@ -32,7 +32,7 @@ func getPods(clientset kubernetes.Interface, namespace string, labels string) (*
 		LabelSelector: labels,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("error listing Pods: %s", err.Error())
+		return nil, fmt.Errorf("unable to list pods: %s", err.Error())
 	}
 
 	filteredPods := []corev1.Pod{}

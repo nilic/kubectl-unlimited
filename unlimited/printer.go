@@ -68,7 +68,7 @@ func (cl *containerList) printTable() error {
 func (cl *containerList) printJSON() error {
 	jsonRaw, err := json.MarshalIndent(cl.Containers, "", "  ")
 	if err != nil {
-		return fmt.Errorf("error marshaling JSON: %s", err.Error())
+		return fmt.Errorf("unable to marshal JSON: %s", err.Error())
 	}
 	fmt.Printf("%s", jsonRaw)
 	return nil
@@ -77,7 +77,7 @@ func (cl *containerList) printJSON() error {
 func (cl *containerList) printYAML() error {
 	yamlRaw, err := yaml.Marshal(cl.Containers)
 	if err != nil {
-		return fmt.Errorf("error marshaling YAML: %s", err.Error())
+		return fmt.Errorf("unable to marshal YAML: %s", err.Error())
 	}
 	fmt.Printf("%s", yamlRaw)
 	return nil
