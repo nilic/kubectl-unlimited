@@ -4,7 +4,7 @@ import (
 	"log"
 )
 
-func ShowUnlimited(c *Config) {
+func Show(c *Config) {
 	clientconfig := getKubeConfig(c.KubeConfig, c.KubeContext)
 	clientset, err := getKubeClientset(clientconfig)
 	if err != nil {

@@ -11,7 +11,7 @@ var cpuCmd = &cobra.Command{
 	Long:  `Display information about running containers with no CPU limits set`,
 	Run: func(cmd *cobra.Command, args []string) {
 		config.SetCheckCPU()
-		unlimited.ShowUnlimited(config)
+		unlimited.Show(config)
 	},
 }
 

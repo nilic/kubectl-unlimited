@@ -23,7 +23,7 @@ var (
 		Run: func(cmd *cobra.Command, args []string) {
 			config.SetCheckCPU()
 			config.SetCheckMemory()
-			unlimited.ShowUnlimited(config)
+			unlimited.Show(config)
 		},
 	}
 )
