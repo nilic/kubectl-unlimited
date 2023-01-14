@@ -22,7 +22,7 @@ func Show(c *Config) {
 
 	containerList := buildContainerList(pods, c.CheckCPU, c.CheckMemory)
 
-	if err = containerList.printContainers(c.OutputFormat); err != nil {
+	if err = containerList.print(c.OutputFormat); err != nil {
 		log.Fatalf("error: %v\n", err)
 	}
 }

@@ -17,8 +17,8 @@ const (
 
 var SupportedOutputFormats = []string{"table", "json", "yaml", "name"}
 
-func (cl *containerList) printContainers(outputFormat string) error {
-	cl.sortContainers()
+func (cl *containerList) print(outputFormat string) error {
+	cl.sort()
 	switch outputFormat {
 	case "table":
 		return cl.printTable()
@@ -33,7 +33,7 @@ func (cl *containerList) printContainers(outputFormat string) error {
 	}
 }
 
-func (cl *containerList) sortContainers() {
+func (cl *containerList) sort() {
 	sort.Slice(cl.Containers, func(i, j int) bool {
 		if cl.Containers[i].Namespace != cl.Containers[j].Namespace {
 			return cl.Containers[i].Namespace < cl.Containers[j].Namespace
